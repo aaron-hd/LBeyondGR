@@ -1,5 +1,5 @@
 # LBeyondGR (vs.0.1) package for Mathematica
-A simple-to-use Mathematica package to (i) ray trace null geodesics in stationary, axisymmetric, and asymptotically flat spacetimes, (ii) numerical bisect potentially non-star-convex lensing-band boundaries, and (iii) minimize the overlap of the resulting geometric lensing band with an observational prior.
+A simple-to-use Mathematica package to (i) ray trace null geodesics in stationary, axisymmetric, and asymptotically flat spacetimes, (ii) numerically bisect potentially non-star-convex lensing-band boundaries, and (iii) minimize the overlap of the resulting geometric lensing band with respect to an observational prior.
 
 The LBeyondGR package currently incorporates:
 
