@@ -5,7 +5,7 @@ The LBeyondGR package currently incorporates:
 
 - Numerical ray tracing in arbitrary stationary and axisymmetric spacetimes. The only restriction is that the spacetime be expressed in terms of coordinates which converge to oblate spheroidal coordinates at asymptotically large values of the radial coordinate.
 
-- Free-floating lensing-band bisections (see also App.~A of the accompanying publication 2311.xxxxx).
+- Free-floating lensing-band bisections (see also App.~A of the accompanying publication 2312.06590).
 
 - The use of Mathematica's "Geometric Computation" capabilities and specifically NMinimize[] to minimize the overlap of an observed/assumed lensed emission region and the obtained lensing band.
 
@@ -19,7 +19,7 @@ Aaron Held
 
 # Acknowledgement
 If your research is based on or benefits from this package or the associated conceptual lensing-band framework, please consider citing
-A. Held, A. Cárdenas-Avendaño, 2311.xxxxx.
+A. Cárdenas-Avendaño, A. Held, 2312.06590.
 
 # Installation
 

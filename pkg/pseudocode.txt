@@ -1,0 +1,96 @@
+The core bit of algorithmic advancement is a free floating two-dimensional boundary bisection.
+
+#==================================================================================================
+# Algorithm: FreeFloatingBisectionStep
+#==================================================================================================
+#
+#--------------------------------------------------------------------------------------------------
+# Input
+#--------------------------------------------------------------------------------------------------
+# boundaryPoints: list of boundary points
+# [inner, outer]: pair of guardrail points on either side of the last boundary point
+# precision: current bisection precision
+# hyperparams: required to evaluate the bisection condition between the guardrail points
+#
+#--------------------------------------------------------------------------------------------------
+# Output:
+#--------------------------------------------------------------------------------------------------
+# boundaryPointsNew: appended list of boundary points
+# [innerNew, outerNew]: updated pair of guardrail points
+# precisionNew: updated bisection precision
+#--------------------------------------------------------------------------------------------------
+
+# initialize previous, current, and next boundary points
+previous = boundaryPoints[-2]
+current = boundaryPoints[-1]
+next = 0
+
+# initialize the guardrail points
+innerNew  = 0
+outerNew = 0
+
+# initialize a first guess for a suitable stepLength
+stepLength = 4*precision
+
+# determine the tangent to the last boundary piece
+tangent = current - previous
+# normalize the tangent to the current stepLength
+if Norm[tangent] < stepLength
+	tangent = tangent*stepLength/Norm[tangent]
+end if
+
+# TODO: ensure minimal stepsize
+
+# perform a while loop reducing the stepLength until the new boundary lies between the new 'guardrail' points
+# to do so, we make sure that the bisection does not converge to innerNew or outerNew (up to numerical precision)
+while (Norm[innerNew - next] <= precision) && Norm[outerNew - next] <= precision)	
+
+	# determine a vector pointing from inner to outer
+	innerToOuter = outer - inner
+	# normalize to the tangent
+	innerToOuter = innerToOuter*Norm[tangent]/Norm[innerToOuter]
+	
+	# balance out the inner and outer points around the tangent
+	innerNew = prev - innerToOuter/2
+	outerNew = prev + innerToOuter/2
+	innerToOuter = outerNew - innerNew
+	
+	# project tangent onto innerToOuter
+	projection = innerToOuter.tangent
+	
+	# ensure that the projected boundary lies between the 'guardrail' points
+	# if not, move them outward
+	if (Norm[innerNew - previous] < Norm[tangent])
+		innerNew = innerNew - innerToOuter
+	end if
+	if (Norm[outerNew - previous] < Norm[tangent])
+		outerNew = outerNew + innerToOuter
+	end if
+	
+	# if the projection is positive (negative) move forward the outer (inner) 'guardrail' point
+	if (projection > 0)
+		innerNew = innerNew + tangent
+	end if
+	else
+		outerNew = outerNew + tangent
+	end else
+	
+	# perform a standard bisection between the 'guardrail' points
+	next = StandardBisection[{innerNew, outerNew}, hyperparams, precision]
+	
+	# as long as the while proceeds, we half the tangent length and the precision
+	tangent = tangent/2
+	precision = precision/2
+	
+end while
+
+# by default we also relax the current precision in favour of efficiency
+precision = precision*2
+
+# add new point to boundaryPoints
+boundaryPointsNew = Append[boundaryPoints,next]
+
+#return the current step
+return {boundaryPoints, {innerNew, outerNew}, precision}
+#==================================================================================================
+
